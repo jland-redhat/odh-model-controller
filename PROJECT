@@ -83,5 +83,41 @@ resources:
   domain: opendatahub.io
   group: serving
   kind: LLMInferenceService
-  version: v1alpha1    
+  version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: opendatahub.io
+  group: maas
+  kind: MaaSAuthPolicy
+  path: github.com/opendatahub-io/odh-model-controller/api/maas/v1alpha1
+  version: v1alpha1
+  webhooks:
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: opendatahub.io
+  group: maas
+  kind: MaaSSubscription
+  path: github.com/opendatahub-io/odh-model-controller/api/maas/v1alpha1
+  version: v1alpha1
+  webhooks:
+    validation: true
+    webhookVersion: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: opendatahub.io
+  group: maas
+  kind: MaaSModel
+  path: github.com/opendatahub-io/odh-model-controller/api/maas/v1alpha1
+  version: v1alpha1
+  webhooks:
+    validation: true
+    webhookVersion: v1
 version: "3"

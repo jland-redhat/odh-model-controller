@@ -46,6 +46,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
 
 	corecontroller "github.com/opendatahub-io/odh-model-controller/internal/controller/core"
+	"github.com/opendatahub-io/odh-model-controller/internal/controller/maas"
 	"github.com/opendatahub-io/odh-model-controller/internal/controller/nim"
 	servingcontroller "github.com/opendatahub-io/odh-model-controller/internal/controller/serving"
 	llmcontroller "github.com/opendatahub-io/odh-model-controller/internal/controller/serving/llm"
@@ -322,6 +323,18 @@ func setupReconcilers(mgr ctrl.Manager, setupLog logr.Logger, cfg *rest.Config) 
 		setupLog.Error(err, "unable to create controller", "controller", "LLMInferenceService")
 		return err
 	}
+	if err := setupMaaSAuthPolicyReconciler(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MaaSAuthPolicy")
+		return err
+	}
+	if err := setupMaaSSubscriptionReconciler(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MaaSSubscription")
+		return err
+	}
+	if err := setupMaaSModelReconciler(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "MaaSModel")
+		return err
+	}
 
 	return nil
 }
@@ -378,4 +391,25 @@ func setupLLMInferenceServiceReconciler(mgr ctrl.Manager) error {
 		mgr.GetScheme(),
 		mgr.GetEventRecorderFor("OpenDataHubModelController"),
 	).SetupWithManager(mgr, setupLog)
+}
+
+func setupMaaSAuthPolicyReconciler(mgr ctrl.Manager) error {
+	return (&maas.MaaSAuthPolicyReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr)
+}
+
+func setupMaaSSubscriptionReconciler(mgr ctrl.Manager) error {
+	return (&maas.MaaSSubscriptionReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr)
+}
+
+func setupMaaSModelReconciler(mgr ctrl.Manager) error {
+	return (&maas.MaaSModelReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr)
 }

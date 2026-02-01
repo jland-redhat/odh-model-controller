@@ -95,8 +95,12 @@ rules:
   resources:
   - httproutes
   verbs:
+  - create
+  - delete
   - get
   - list
+  - patch
+  - update
   - watch
 - apiGroups:
   - keda.sh
@@ -114,6 +118,7 @@ rules:
   - kuadrant.io
   resources:
   - authpolicies
+  - tokenratelimitpolicies
   verbs:
   - create
   - delete
@@ -138,6 +143,38 @@ rules:
   - get
   - list
   - watch
+- apiGroups:
+  - maas.opendatahub.io
+  resources:
+  - maasauthpolicies
+  - maasmodels
+  - maassubscriptions
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - maas.opendatahub.io
+  resources:
+  - maasauthpolicies/finalizers
+  - maasmodels/finalizers
+  - maassubscriptions/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - maas.opendatahub.io
+  resources:
+  - maasauthpolicies/status
+  - maasmodels/status
+  - maassubscriptions/status
+  verbs:
+  - get
+  - patch
+  - update
 - apiGroups:
   - metrics.k8s.io
   resources:

@@ -18,6 +18,7 @@ import (
 	gatewayapiv1 "sigs.k8s.io/gateway-api/apis/v1"
 
 	nimv1 "github.com/opendatahub-io/odh-model-controller/api/nim/v1"
+	maasv1alpha1 "github.com/opendatahub-io/odh-model-controller/api/maas/v1alpha1"
 
 	"k8s.io/apimachinery/pkg/runtime"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
@@ -38,6 +39,7 @@ func RegisterSchemes(s *runtime.Scheme) {
 	utilruntime.Must(kuadrantv1beta1.AddToScheme(s))
 	utilruntime.Must(authorinooperatorv1beta1.AddToScheme(s))
 	utilruntime.Must(nimv1.SchemeBuilder.AddToScheme(s))
+	utilruntime.Must(maasv1alpha1.SchemeBuilder.AddToScheme(s))
 	utilruntime.Must(templatev1.AddToScheme(s))
 	utilruntime.Must(kedaapi.AddToScheme(s))
 	utilruntime.Must(gatewayapiv1.Install(s))

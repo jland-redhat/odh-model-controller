@@ -105,6 +105,55 @@ Users can just run kubectl apply -f <URL for YAML BUNDLE> to install the project
 kubectl apply -f https://raw.githubusercontent.com/<org>/odh-model-controller/<tag or branch>/dist/install.yaml
 ```
 
+## MaaS Subscription Model v2
+
+The odh-model-controller now includes support for the MaaS Subscription Model v2, which provides subscription-based access control and token rate limiting for AI/ML models.
+
+### Quick Install
+
+To install the MaaS Subscription Model v2 CRDs and optionally update the operator:
+
+```sh
+# Install CRDs only
+./scripts/install-maas-subscription.sh
+
+# Install CRDs and update operator
+./scripts/install-maas-subscription.sh --update-operator
+```
+
+For more details, see [scripts/README.md](./scripts/README.md).
+
+### MaaS CRDs
+
+The following Custom Resource Definitions are available:
+
+- **MaaSAuthPolicy**: Defines access control policies for models based on OIDC subjects/groups
+- **MaaSSubscription**: Defines subscription plans with per-model token rate limits and billing information
+- **MaaSModel**: Represents AI/ML model endpoints (internal KServe or external)
+
+### Example Usage
+
+```yaml
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: MaaSSubscription
+metadata:
+  name: my-subscription
+spec:
+  owner:
+    groups:
+      - name: "my-group"
+  modelRefs:
+    - name: my-model
+      tokenRateLimits:
+        - limit: 1000
+          window: 1h
+      billingRate:
+        perToken: "0.000001"
+  billingMetadata:
+    organizationId: "my-org"
+    costCenter: "engineering"
+```
+
 ## Contributing
 
 // TODO(user): Add detailed information on how you would like others to contribute to this project
